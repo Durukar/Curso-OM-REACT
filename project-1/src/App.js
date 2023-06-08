@@ -3,13 +3,28 @@ import './App.css';
 import { Component } from 'react';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.handlePClick = this.handlePClick.bind(this);
+
+    this.state = {
+      name: 'Lucas Davila'
+    };
+  }
+
+  handlePClick () {
+    const { name }  = this.state;
+    console.log(`O nome é ${name}`);
+  }
+
   render () {
+    const { name }  = this.state;
     return (
           <div className="App">
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
-              <p>
-                Edit <code>src/App.js</code> and save to reload.
+              <p onClick={this.handlePClick}>
+                {name}
               </p>
               <a
                 className="App-link"
