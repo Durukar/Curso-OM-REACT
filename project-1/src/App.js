@@ -3,36 +3,42 @@ import './App.css';
 import { Component } from 'react';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.handlePClick = this.handlePClick.bind(this);
-
-    this.state = {
-      name: 'Lucas Davila'
+  state = {
+      job: 'Lucas Davila'
     };
+
+  handlePClick = () => {
+    this.setState({ name: 'Lucas Júnior' })
   }
 
-  handlePClick () {
-    const { name }  = this.state;
-    console.log(`O nome é ${name}`);
+  handleAClick = (event) => {
+    event.preventDefault();
+    const { job } = this.state;
+    if (job === 'Desenvolvedor Junior Java + React') {
+      this.setState({ job: 'Lucas Davila' })
+    } else {
+      this.setState({ job: 'Desenvolvedor Junior Java + React' })
+    }
   }
 
   render () {
-    const { name }  = this.state;
+    const { job }  = this.state;
     return (
           <div className="App">
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
-              <p onClick={this.handlePClick}>
-                {name}
+              <p>
+                {job}
               </p>
               <a
+                onClick={this.handleAClick}
                 className="App-link"
-                href="https://reactjs.org"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
+                title='Alterar nome'
               >
-                Learn React
+                Clique e descubra
               </a>
             </header>
           </div>
