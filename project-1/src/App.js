@@ -3,62 +3,37 @@ import { Component } from 'react';
 
 class App extends Component {
   state = {
-    counter: 0,
     posts: [
-      {
-        id: 1,
-        title: 'Titulo 1',
-        body: 'Corpo 1'
-      },
-      {
-        id: 2,
-        title: 'Titulo 2',
-        body: 'Corpo 2'
-      },
-      {
-        id: 3,
-        title: 'Titulo 3',
-        body: 'Corpo 3'
-      },
     ]
   };
 
-  timeoutUpdate = null;
-
   componentDidMount() {
-    this.handleTimeout();
+    this.loadPosts();
   }
 
-  componentDidUpdate() {
-    clearTimeout(this.timeoutUpdate);
-    this.handleTimeout();
-  }
+  loadPosts = async () => {
+    const postsResponse = fetch('https://jsonplaceholder.typicode.com/posts');
 
-  componentWillUnmount() {
-    clearTimeout(this.timeoutUpdate);
-  }
+    const [posts] = await Promise.all([postsResponse]);
 
-  handleTimeout = () => {
-    const { posts, counter } = this.state;
-    posts[0].title = 'O titulo mudou';
+    const postsJson = await posts.json();
 
-    this.timeoutUpdate = setTimeout(() => {
-      this.setState({ posts, counter: counter + 1 })
-    }, 1000)
+    this.setState({ posts: postsJson });
   }
 
   render() {
-    const { posts, counter } = this.state;
+    const { posts } = this.state;
     return (
-      <div className="App">
-        <h1>{counter}</h1>
+      <section className="container">
+      <div className="posts">
         {posts.map(post => (
-          <div key={post.id}>
+          <div key={post.id} className='post-content'>
             <h1>{post.title}</h1>
             <p>{post.body}</p>
           </div>
         ))}
       </div>
+      </section>
     );
   }
 }
